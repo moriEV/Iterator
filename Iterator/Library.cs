@@ -9,20 +9,26 @@ namespace Iterator
 {
     internal class Library : IEnumerable<Book>
     {
-        List<Book> books = new List<Book>();
+        private Book[] books = new Book[0];
+        private int count;
         public Book this[int index]
         {
             get { return books[index]; }
-            set { books.Insert(index, value); }
+            set { books[index] = value; }
         }
         
         public int Count
         {
-            get { return books.Count; }
+            get { return count; }
         }
         public void Add(Book book)
         {
-            books.Add(book);
+            if (count == books.Length)
+            {
+                Array.Resize(ref books, books.Length + 1);
+            }
+            books[count] = book;
+            count++;
         }
         public IEnumerator<Book> GetEnumerator()
         {
